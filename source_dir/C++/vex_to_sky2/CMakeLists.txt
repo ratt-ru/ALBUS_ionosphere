@@ -9,7 +9,6 @@ project(jmavex_project LANGUAGES CXX Fortran)
 include_directories(
   vex2005
   vexplus
-  ../mim/test/PIMrunner
   ${CMAKE_SOURCE_DIR}/source_dir/include
   ${CMAKE_SOURCE_DIR}/source_dir/C++/vex_to_sky2/mim/test/PIMrunner
 )
@@ -58,6 +57,7 @@ set_target_properties(jmavex PROPERTIES
   SOVERSION "${VER_MAJOR}"
 )
 
+target_link_directories(jmavex PRIVATE ../mim/test/PIMrunner)
 
 # Link the external libraries to the shared library target.
 # This mirrors the Makefile’s EXTERN_LIBS:
@@ -75,6 +75,8 @@ set_target_properties(jmavex PROPERTIES
     INSTALL_RPATH "$ORIGIN"
     BUILD_WITH_INSTALL_RPATH TRUE
 )
+
+
 #----------------------------------------------------------------------------
 # Define Executable Targets
 #----------------------------------------------------------------------------
@@ -93,6 +95,8 @@ set_target_properties(jmavex PROPERTIES
 add_executable(ell_coord_converter ell_coord_converter.cxx ellipsoidal_coord.cxx)
 # Link the math library (for -lm) if required.
 target_link_libraries(ell_coord_converter PRIVATE m)
+
+
 
 
 execute_process(
