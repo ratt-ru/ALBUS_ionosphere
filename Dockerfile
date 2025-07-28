@@ -166,23 +166,13 @@ RUN build_env/bin/pip install --force-reinstall numpy==1.21
 # RUN export PYTHONPATH=/src/ALBUS/build_env/lib/python3.10/site-packages/share
 WORKDIR /src/ALBUS/source_dir
 RUN cp -r libdata /src/ALBUS/build_env/lib/python3.10/site-packages
-<<<<<<< HEAD
-#RUN mkdir -p /optsoft/ALBUS/include
-RUN cp -r include /src/ALBUS/build_env/lib/python3.10/site-packages
-#RUN export LD_LIBRARY_PATH=/src/ALBUS/build_env/lib/python3.10/site-packages/albusionosphere/lib:$LD_LIBRARY_PATH
-#RUN build_env/bin/python -c "from albusionosphere import AlbusIonosphere"
-#export PYTHONPATH=/src/ALBUS/build_env/lib/python3.10/site-packages
-=======
-RUN mkdir /src/ALBUS/build_env/lib/python3.10/site-packages/man
 ENV PATH "/src/ALBUS/build_env/lib/python3.10/site-packages/bin:$PATH"
-ENV LD_LIBRARY_PATH "/src/ALBUS/build_env/lib/python3.10/site-packages/lib:$LD_LIBRARY_PATH"
 ENV PYTHONPATH "/src/ALBUS/build_env/lib/python3.10/site-packages/share:$PYTHONPATH"
 
 #export PYTHONPATH=/src/ALBUS/build_env/lib/python3.10/site-packages/share
 #RUN export LD_LIBRARY_PATH=/src/ALBUS/build_env/lib/python3.10/site-packages/albusionosphere/lib:$LD_LIBRARY_PATH
 #RUN build_env/bin/python -c "import AlbusIonosphere"
 
->>>>>>> d23b8037f14353f502678039b2df201211ade151
 # RUN apt-get update && apt-get install -y python-is-python3
 
 # WORKDIR /src/ALBUS
