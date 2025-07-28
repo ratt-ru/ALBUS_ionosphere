@@ -67,7 +67,7 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-add_library(AlbusIonosphere SHARED AlbusIonosphere.cxx)
+add_library(AlbusIonosphere MODULE AlbusIonosphere.cxx)
 
 set_target_properties(AlbusIonosphere PROPERTIES
   PREFIX ""
@@ -111,6 +111,8 @@ target_include_directories(AlbusIonosphere
 
 install(TARGETS AlbusIonosphere
         LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES}
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                    GROUP_READ GROUP_EXECUTE
+                    WORLD_READ WORLD_EXECUTE
 )
-
 
