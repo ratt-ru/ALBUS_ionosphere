@@ -166,9 +166,11 @@ RUN build_env/bin/python -m pip install --no-build-isolation .
 RUN export PYTHONPATH=/src/ALBUS/build_env/lib/python3.10/site-packages/share
 WORKDIR /src/ALBUS/source_dir
 RUN cp -r libdata /src/ALBUS/build_env/lib/python3.10/site-packages
+#RUN mkdir -p /optsoft/ALBUS/include
+RUN cp -r include /src/ALBUS/build_env/lib/python3.10/site-packages
 #RUN export LD_LIBRARY_PATH=/src/ALBUS/build_env/lib/python3.10/site-packages/albusionosphere/lib:$LD_LIBRARY_PATH
 #RUN build_env/bin/python -c "from albusionosphere import AlbusIonosphere"
-
+#export PYTHONPATH=/src/ALBUS/build_env/lib/python3.10/site-packages
 # RUN apt-get update && apt-get install -y python-is-python3
 
 # WORKDIR /src/ALBUS
