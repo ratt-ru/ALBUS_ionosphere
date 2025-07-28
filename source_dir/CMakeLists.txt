@@ -2,12 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(JMA_Code VERSION 1.0.0 LANGUAGES C CXX Fortran)
 
-#----------------------------------------------------------------------------
-# Configuration variables (equivalent to exported Makefile variables)
-#----------------------------------------------------------------------------
-# Installation directory (adjust as needed)
-
-#set(INSTALLDIR "/home/ntsikelelo/Projects/ALBUS/ALBUS_ionosphere" CACHE PATH "Installation director")   ## set by docker file
 
 find_package(PythonInterp REQUIRED)
 find_package(PythonLibs REQUIRED)
@@ -40,10 +34,6 @@ option(SHARED "Build shared library" ON)
 # Option for HAVE_G2C_H_FILE (defaulting to off)
 set(HAVE_G2C_H_FILE 0 CACHE BOOL "Set if g2c.h is available")
 
-
-
-
-include_directories(${CMAKE_SOURCE_DIR} ${INSTALLDIR}/include)
 
 add_definitions(-DINSTALLDIR="${INSTALLDIR}")
 if(HAVE_G2C_H_FILE)
