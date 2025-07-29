@@ -157,28 +157,6 @@ target_link_libraries(mim PRIVATE
 )
 
 
-#set_target_properties(mim PROPERTIES
-#    INSTALL_RPATH "$ORIGIN"
-#   BUILD_WITH_INSTALL_RPATH TRUE
-#)
-
-
-# Get Python site-packages directory
-
-
-
-
-
-# Add for any other shared library targets as needed
-
-#----------------------------------------------------------------------------
-# Define executable targets
-#
-# The Makefile builds a series of executables (lofar, lofar2, ..., vlba_obs)
-# by linking a main source file (e.g. lofar.cxx) with the common OBJS.
-#
-# In CMake we define one executable per main file and link it against the library.
-#----------------------------------------------------------------------------
 set(EXECUTABLES
     lofar
     lofar2
@@ -214,12 +192,7 @@ foreach(exec ${EXECUTABLES})
   )
 endforeach()
 
-#----------------------------------------------------------------------------
-# Installation rules
-#
-# Install the library (shared or static) and the header files.
-# Also install the executables if desired.
-#----------------------------------------------------------------------------
+
 
 
 set_target_properties(mim PROPERTIES
@@ -241,9 +214,5 @@ install(TARGETS mim
 install(TARGETS ${EXECUTABLES}
         RUNTIME DESTINATION ${PYTHON_SITE_PACKAGES}/bin)
 
-#----------------------------------------------------------------------------
-# (Optional) Custom targets for cleaning, dependency generation, etc.
-#
-# CMake generates a clean target automatically.
-#----------------------------------------------------------------------------
+
 

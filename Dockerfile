@@ -83,21 +83,14 @@ RUN build_env/bin/pip install -U pip build
 RUN build_env/bin/pip install --upgrade pip
 WORKDIR /src/ALBUS
 RUN build_env/bin/pip install -U pip setuptools wheel
+## since there is no build isolation this needs to installled before build
 RUN build_env/bin/pip install scikit-build-core[pyproject] numpy==1.21
 
 RUN build_env/bin/python -m pip install --no-build-isolation .
-RUN build_env/bin/pip install astropy
-RUN build_env/bin/pip install PyEphem
-RUN build_env/bin/pip install requests
-RUN build_env/bin/pip install pycurl
-RUN build_env/bin/pip install --force-reinstall numpy==1.21
-WORKDIR /src/ALBUS/source_dir
-RUN cp -r libdata /src/ALBUS/build_env/lib/python3.10/site-packages
-RUN cp -r libdata /
-ENV PATH "/src/ALBUS/build_env/lib/python3.10/site-packages/bin:$PATH"
+
+#needed no other way, not set by system, needs to be declared before runing albus imported as a variable
 ENV PYTHONPATH "/src/ALBUS/build_env/lib/python3.10/site-packages/share:$PYTHONPATH"
-# WORKDIR /src/ALBUS
-# RUN build_env/bin/python source_dir/examples/NZ_pulsar_experiment.py 
+
 
 
 

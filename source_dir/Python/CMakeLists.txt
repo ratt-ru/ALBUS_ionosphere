@@ -41,12 +41,17 @@ execute_process(
 )
 
 
+execute_process(
+    COMMAND "${Python3_EXECUTABLE}" -c "import sysconfig; print(sysconfig.get_path('scripts'))"
+    OUTPUT_VARIABLE PYTHON_BIN_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
 
 
 install(
   PROGRAMS ${PROG}
-  DESTINATION ${PYTHON_SITE_PACKAGES}/bin
+  DESTINATION ${PYTHON_BIN_DIR}
 )
 
 install(

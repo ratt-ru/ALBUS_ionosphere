@@ -1,5 +1,8 @@
 [build-system]
-requires = ["scikit-build-core[pyproject]", "numpy==1.21"] ##less than 
+requires = [
+    "scikit-build-core[pyproject]",
+    "numpy==1.21"
+]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -10,27 +13,29 @@ authors = [{ name = "James M Anderson" }]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.6"
-dependencies = ["numpy"]
+
+dependencies = [
+    "numpy==1.21",
+    "astropy",
+    "ephem",      
+    "requests",
+    "pycurl"
+]
 
 [tool.scikit-build]
-cmake.minimum-version = "3.10"
-cmake.verbose = true
+cmake.version = ">=3.10"
+build.verbose = true
 build-dir = "build"
-wheel.packages = ["albusionosphere"]  # or "." if no package dir
-
-# include any other necessary source and data files in source distribution
+wheel.packages = ["albusionosphere"]
 sdist.include = [
     "CMakeLists.txt",
     "AlbusIonosphere.cxx",
     "source_dir"
 ]
 
+
 [tool.scikit-build.cmake.define]
-# Define the C preprocessor macros
 MAJOR_VERSION = "1"
 MINOR_VERSION = "0"
 
-
-# You can pass ALBUS_PATH this way or let your CMakeLists.txt detect it from the env
-ALBUS_PATH = "/optsoft/ALBUS"
 

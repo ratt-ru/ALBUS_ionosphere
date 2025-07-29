@@ -34,6 +34,8 @@ option(SHARED "Build shared library" ON)
 # Option for HAVE_G2C_H_FILE (defaulting to off)
 set(HAVE_G2C_H_FILE 0 CACHE BOOL "Set if g2c.h is available")
 
+#set install directory to source_dir so that in run time libdata can be found in source dir: defaults to root if not set
+set(INSTALLDIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_definitions(-DINSTALLDIR="${INSTALLDIR}")
 if(HAVE_G2C_H_FILE)
@@ -90,5 +92,16 @@ add_subdirectory(FORTRAN)
 add_subdirectory(C++)
 add_subdirectory(include)
 add_subdirectory(Python)
+
+### copy libdata to site-packages 
+execute_process(
+  COMMAND "${Python3_EXECUTABLE}" -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])"
+  OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/source_dir/libdata"
+        DESTINATION "${PYTHON_SITE_PACKAGES}")
 
 
