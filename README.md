@@ -11,7 +11,7 @@
 3. Create and activate Python virtual environment 
    ```bash
    python -m venv albus_env
-   source albus/bin/activate    
+   source albus_env/bin/activate    
 
 4. Install the package:
    ```bash
@@ -20,6 +20,7 @@
 5. Set Python-path.
    ```bash 
    export PYTHONPATH="$(pwd)/albus_env/lib/python3.10/site-packages/share:$PYTHONPATH"
+
 
 
 
