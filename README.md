@@ -9,17 +9,18 @@
    cd ALBUS_ionosphere
 
 3. Create and activate Python virtual environment 
-  ```bash
+   ```bash
    python -m venv albus_env
    source albus/bin/activate    
 
 4. Install the package:
-```bash
+   ```bash
    pip install .
 
 5. Set Python-path.
-```bash 
+   ```bash 
    export PYTHONPATH="$(pwd)/albus_env/lib/python3.10/site-packages/share:$PYTHONPATH"
+
 
 
 
