@@ -1,8 +1,8 @@
 ## Installation
 
-1. Clone this repository (if you haven’t already):
+1. Clone this branch (if you haven’t already):
    ```bash
-   git@github.com:Ntsikelelo-Charles/ALBUS_ionosphere.git
+   git clone -b albus_python_version git@github.com:Ntsikelelo-Charles/ALBUS_ionosphere.git
 
 2. Navigate into the project directory:
    ```bash
@@ -20,6 +20,7 @@
 5. Set Python-path.
    ```bash 
    export PYTHONPATH="$(pwd)/albus_env/lib/python3.10/site-packages/share:$PYTHONPATH"
+
 
 
 
