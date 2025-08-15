@@ -21,8 +21,9 @@
    ```bash 
    export PYTHONPATH="$(pwd)/albus_env/lib/python3.10/site-packages/share:$PYTHONPATH"
 
-**Note that user need compile and install RINEX file 
+**Note that the user still needs to compile and install RINEX file after installation
 **
+
 
 
 
