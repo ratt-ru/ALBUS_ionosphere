@@ -62,7 +62,8 @@ def main():
       else:
          try:
            cnopts = pysftp.CnOpts()
-           cnopts.hostkeys = None
+# next line now obsolete
+#          cnopts.hostkeys = None
            split_location = sys.argv[1].find('/')
            host_name =  sys.argv[1][:split_location]
            localFilePath = sys.argv[2]
