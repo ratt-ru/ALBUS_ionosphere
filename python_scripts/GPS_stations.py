@@ -726,10 +726,14 @@ A        O  List of 3 element arrays [station_name, station_position, dist],
             dist = math.sqrt(delta[0]*delta[0] +delta[1]*delta[1]
                              +delta[2]*delta[2])
             if(dist <= max_dist):
-              print('potential GPS station',s,'at distance (km)', dist/1000.0)
+#             print('potential GPS station',s,'at distance (km)', dist/1000.0)
               total_list.append([s, pos, dist])
               break
-    return total_list
+    sorted_list = sorted(total_list, key=lambda x: x[2])
+    for item in sorted_list:
+        print('potential GPS station',item[0],'at distance (km)', item[2]/1000.0)
+
+    return sorted(total_list, key=lambda x: x[2])
 
 
 
