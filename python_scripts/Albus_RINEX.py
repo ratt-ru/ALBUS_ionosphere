@@ -6,7 +6,7 @@
 
 
 global DEBUG_SET 
-DEBUG_SET = True
+DEBUG_SET = False
 
 ################################################################################
 # some import commands  The User should not need to change this.
