@@ -1539,11 +1539,10 @@ GPS_collection_return GPS_collection::get_multiple_receiver_2D_MIM_fit(
     if(observations_2D[0].sigma_model_VTEC < 0.0)
         return GPS_collection_return(GPS_BAD_DATA_VALUE);
 
-    Real64 error_estimate = std_dev / VTEC_factor;
+    Real64 error_estimate = std_dev;
     Real64 sigma_SRM = GPS_BAD_DATA_VALUE;
     if(model_SRM != GPS_BAD_DATA_VALUE) {
         sigma_SRM = error_estimate * model_SRM / model_STEC;
-        model_SRM *= workspace[NUM_POLY-1];
     }
 
 //    fprintf(stdout, "In GPS_collection::returning!!\n");
@@ -2140,7 +2139,6 @@ GPS_collection_return GPS_collection::get_multiple_receiver_3D_MIM_fit(
     Real64 sigma_SRM = GPS_BAD_DATA_VALUE;
     if(model_SRM != GPS_BAD_DATA_VALUE) {
         sigma_SRM = error_estimate * model_SRM / model_STEC;
-        model_SRM *= workspace[NUM_POLY-1];
     }
     return GPS_collection_return(observations_3D[0].model_STEC,
                                  error_estimate,
@@ -2685,7 +2683,6 @@ GPS_collection_return GPS_collection::get_multiple_receiver_3D_MIM_track_fit(
     Real64 sigma_SRM = GPS_BAD_DATA_VALUE;
     if(model_SRM != GPS_BAD_DATA_VALUE) {
         sigma_SRM = error_estimate * model_SRM / model_STEC;
-        model_SRM *= workspace[NUM_POLY-1];
     }
     return GPS_collection_return(observations_3D[0].model_STEC,
                                  error_estimate,
