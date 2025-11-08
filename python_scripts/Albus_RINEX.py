@@ -511,10 +511,10 @@ OUTPUTS:  None
     if(year >= 2000): yy = year - 2000
     site_str = ""
     if(FTP_site == 0 or FTP_site == 1 ):
-       if DEBUG_SET:
-          print('calling SOPAC')
-       # SOPAC California
-       if year >= 2016:   # try RINEX3
+      # SOPAC California
+      if DEBUG_SET:
+        print('calling SOPAC')
+      if year >= 2016:   # try RINEX3
          RX3_flag = True
          RINEX3_filename = get_rinex3_filename(RINEX_filename, country)
          if DEBUG_SET:
@@ -525,7 +525,7 @@ OUTPUTS:  None
            our_file = output_directory + '/' + RINEX_filename 
            our_Z_file = output_directory + '/' + RINEX3_filename + '.gz'
            site_str = "ftp://garner.ucsd.edu/pub/rinex/%4.4d/%3.3d/%s.gz"%(year, doy, RINEX3_filename)
-       else:
+      else:
          if(RINEX_filename[-1] == 'd'):
            site_str = "ftp://garner.ucsd.edu/pub/rinex/%4.4d/%3.3d/%s.Z"%(year, doy, RINEX_filename)
     elif(FTP_site == 2):
