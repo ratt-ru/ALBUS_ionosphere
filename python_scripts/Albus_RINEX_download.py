@@ -6,7 +6,6 @@
 # 2007 Jan 19  James M Anderson  --JIVE  start
 # 2020 Using pycurl with python3
 # 2023 Updated to access current CDDIS server
-# 2025 modified script so as to eliminate annoying retrieval error messages
 
 global DEBUG_SET
 DEBUG_SET = False
@@ -15,6 +14,10 @@ import sys
 import pycurl
 import requests
 import os
+
+# set one of these 2 options to be True
+HAS_FTPLIB = False
+HAS_PYCURL = True       # seems a bit faster
 
 def main():
     if DEBUG_SET:
@@ -86,12 +89,10 @@ def main():
             sys.exit(-3)
             
 
-    HAS_PYCURL = True
     if HAS_PYCURL:  #  currently the system used for retrieving most ftp data
+      print ('using PyCurl')
       if DEBUG_SET:
-        print ('using PyCurl')
         print ('system parameters ', sys.argv)
-      HAS_FTPLIB = False
       try:
         if DEBUG_SET:
           print("URL=",sys.argv[1]," File=",sys.argv[2])
@@ -111,6 +112,38 @@ def main():
                c.close()
         except:
           print('PyCurl failed to get data for ', sys.argv[1], ' file probably not found!!')
+          sys.exit(-3)
+      except:
+        pass
+
+    if HAS_FTPLIB:  #  currently the system used for retrieving most ftp data
+      print ('using ftplib')
+      if DEBUG_SET:
+        print ('system parameters ', sys.argv)
+      try:
+        if DEBUG_SET:
+          print("URL=",sys.argv[1]," File=",sys.argv[2])
+        try:
+          import ftplib
+          from urllib.parse import urlparse
+          timeout = int(sys.argv[3])
+          url = urlparse(sys.argv[1])
+          host = url.netloc
+          path = os.path.dirname(url.path)
+          filename = os.path.basename(url.path)
+          with open(sys.argv[2], 'wb') as f:
+               ftp = ftplib.FTP(host, timeout=timeout)
+               ftp.login() # Anonymous login
+               if path:
+                   ftp.cwd(path)
+               if DEBUG_SET:
+                 print('ftplib getting data from ', host, ' for file ', filename)
+               ftp.retrbinary('RETR ' + filename, f.write)
+               if DEBUG_SET:
+                 print('ftplib closing for ', sys.argv[1])
+               ftp.quit()
+        except Exception as e:
+          print('ftplib failed to get data for ', sys.argv[1], ' file probably not found!! Error:', e)
           sys.exit(-3)
       except:
         pass
