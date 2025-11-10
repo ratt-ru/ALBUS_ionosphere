@@ -66,14 +66,12 @@ def main():
       else:
          try:
            cnopts = pysftp.CnOpts()
-# Geosciences Australia seems not to need this setting anymore
-#          cnopts.hostkeys = None   
+           cnopts.hostkeys = None   
            split_location = sys.argv[1].find('/')
            host_name =  sys.argv[1][:split_location]
            localFilePath = sys.argv[2]
            if DEBUG_SET:
              print('sftp host name', host_name)
-             print('text[0]', text[0])
              print('localFilePath',localFilePath)
            with pysftp.Connection(host=host_name, username='anonymous', password='ALBUS_ionosphere',cnopts=cnopts) as sftp:
               remoteFilePath  = sys.argv[1][split_location+1:]
