@@ -25,11 +25,11 @@ include_directories(
     ${Python3_NumPy_INCLUDE_DIRS}
   
     
-    ${CMAKE_CURRENT_SOURCE_DIR}/source_dir/vex_to_sky2
-    ${CMAKE_CURRENT_SOURCE_DIR}/source_dir/C++/mim/test/PIMrunner
-    ${CMAKE_CURRENT_SOURCE_DIR}/source_dir/FORTRAN/SOFA/sofa
-    ${CMAKE_CURRENT_SOURCE_DIR}/source_dir/FORTRAN/IRI
-    ${CMAKE_CURRENT_SOURCE_DIR}/source_dir/FORTRAN/PIM/PIM_1.7/pim/source/vlb4
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/vex_to_sky2
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/C++/mim/test/PIMrunner
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/FORTRAN/SOFA/sofa
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/FORTRAN/IRI
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/FORTRAN/PIM/PIM_1.7/pim/source/vlb4
 
    
 )
@@ -40,8 +40,8 @@ link_directories(${ALBUS_PATH}/lib)
 # 5. Define preprocessor macros for version info
 add_definitions(-DMAJOR_VERSION=${MAJOR_VERSION} -DMINOR_VERSION=${MINOR_VERSION})
 
-# 6. Add source_dir if it has sources or more targets
-add_subdirectory(source_dir)
+# 6. Add ALBUSionosphere if it has sources or more targets
+add_subdirectory(ALBUS_ionosphere)
 
 # 7. Create the shared library module
 #add_library(AlbusIonosphere SHARED AlbusIonosphere.cxx)

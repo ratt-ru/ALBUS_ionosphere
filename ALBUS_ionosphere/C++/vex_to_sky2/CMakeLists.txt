@@ -9,8 +9,8 @@ project(jmavex_project LANGUAGES CXX Fortran)
 include_directories(
   vex2005
   vexplus
-  ${CMAKE_SOURCE_DIR}/source_dir/include
-  ${CMAKE_SOURCE_DIR}/source_dir/C++/vex_to_sky2/mim/test/PIMrunner
+  ${CMAKE_SOURCE_DIR}/ALBUS_ionosphere/include
+  ${CMAKE_SOURCE_DIR}/ALBUS_ionosphere/C++/vex_to_sky2/mim/test/PIMrunner
 )
 
 

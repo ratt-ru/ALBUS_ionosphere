@@ -31,3 +31,5 @@ acceptance_tests/.output
 __pycache__
 
 .noaacache
+build/
+*.log

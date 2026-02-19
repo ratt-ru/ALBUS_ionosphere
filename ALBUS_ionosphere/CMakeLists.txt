@@ -101,7 +101,7 @@ execute_process(
 )
 
 
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/source_dir/libdata"
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/ALBUS_ionosphere/libdata"
         DESTINATION "${PYTHON_SITE_PACKAGES}")
 
 

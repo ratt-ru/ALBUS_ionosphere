@@ -12,8 +12,8 @@ find_library(LAPACKE_LIB NAMES lapacke REQUIRED)
 #----------------------------------------------------------------------------
 include_directories(${PYTHONINCLUDEDIR})
 
-include_directories(${CMAKE_SOURCE_DIR}/source_dir/C++/vex_to_sky2)
-include_directories(${CMAKE_SOURCE_DIR}/source_dir/include)
+include_directories(${CMAKE_SOURCE_DIR}/ALBUS_ionosphere/C++/vex_to_sky2)
+include_directories(${CMAKE_SOURCE_DIR}/ALBUS_ionosphere/include)
 #include_directories(../../../../FORTRAN/IRI)
 #include_directories(../../../../FORTRAN/PIM/PIM_1.7/pim/source/vlb4)
 

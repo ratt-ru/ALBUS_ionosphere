@@ -1,6 +1,7 @@
 [build-system]
 requires = [
-    "scikit-build-core[pyproject]",
+    "scikit-build-core",
+    "cmake",
     "numpy==1.21"
 ]
 build-backend = "scikit_build_core.build"
@@ -8,7 +9,7 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "AlbusIonosphere"
 version = "1.0.0"
-description = "ALBUS Ionospheric Calibration package for AIPS"
+description = "ALBUS ionospheric RM prediction package"
 authors = [{ name = "James M Anderson" }]
 license = { text = "MIT" }
 readme = "README.md"
@@ -19,18 +20,19 @@ dependencies = [
     "astropy",
     "ephem",      
     "requests",
-    "pycurl"
+    "pycurl",
+    "matplotlib"
 ]
 
 [tool.scikit-build]
 cmake.version = ">=3.10"
 build.verbose = true
 build-dir = "build"
-wheel.packages = ["albusionosphere"]
+wheel.packages = ["AlbusIonosphere"]
 sdist.include = [
     "CMakeLists.txt",
     "AlbusIonosphere.cxx",
-    "source_dir"
+    "ALBUS_ionosphere"
 ]
 
 
