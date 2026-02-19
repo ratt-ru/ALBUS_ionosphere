@@ -126,7 +126,7 @@ def set_debug_option(debug_option):
 def get_rinex3_filename(RINEX_filename, country):
    print('incoming parameters', RINEX_filename, country)
    RINEX3_filename = None
-   process = Popen(['/usr/local/bin/RX3name', RINEX_filename],stdout=PIPE)
+   process = Popen(['RX3name', RINEX_filename],stdout=PIPE)
    (output, err) = process.communicate()
    if DEBUG_SET:
      print('output', output)
@@ -134,7 +134,7 @@ def get_rinex3_filename(RINEX_filename, country):
       if DEBUG_SET:
         print('initial station not found \n')
       if country in _ISO_COUNTRY_CODES:
-        command = '/usr/local/bin/RX3name ' + RINEX_filename +  ' 00' + country
+        command = 'RX3name ' + RINEX_filename +  ' 00' + country
         if DEBUG_SET:
           print('command', command, '\n')
         process =Popen(shlex.split(command), stdout=PIPE)
