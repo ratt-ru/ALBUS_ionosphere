@@ -30,7 +30,8 @@ IMAGENAME="albus"
 cd $PROJECTS_DIR/ALBUS_ionosphere
 docker build -t "$IMAGENAME:$BUILD_NUMBER" --no-cache=true .
 docker run \
-    -v $TEST_DATA_DIR/gfzrnx_2.0-8219_lx64:/optsoft/bin/gfzrnx \
+    -v $TEST_DATA_DIR/gfzrnx_2.0-8219_lx64:/usr/local/bin/gfzrnx \
+    -v $TEST_DATA_DIR/RX3name:/usr/local/bin/RX3name \
     -v $PROJECTS_DIR/ALBUS_ionosphere/acceptance_tests:/albus_waterhole \
     --workdir /albus_waterhole \
     -v $TEST_OUTPUT_DIR:/test_output \

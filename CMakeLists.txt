@@ -1,112 +1,118 @@
 cmake_minimum_required(VERSION 3.10)
+project(AlbusIonosphere LANGUAGES CXX)
 
-project(JMA_Code VERSION 1.0.0 LANGUAGES C CXX Fortran)
+# 1. Get environment variables or fallback to defaults
+set(ALBUS_PATH $ENV{ALBUS_PATH} CACHE PATH "Path to ALBUS install")
+set(INSTALLDIR $ENV{ALBUS_PATH} CACHE PATH "Path to ALBUS install")
+set(MAJOR_VERSION $ENV{MAJOR_VERSION} CACHE STRING "Major version")
+set(MINOR_VERSION $ENV{MINOR_VERSION} CACHE STRING "Minor version")
 
-#----------------------------------------------------------------------------
-# Configuration variables (equivalent to exported Makefile variables)
-#----------------------------------------------------------------------------
-# Installation directory (adjust as needed)
+# Get NumPy include path dynamically
+execute_process(
+  COMMAND ${Python3_EXECUTABLE} -c "import numpy; print(numpy.get_include())"
+  OUTPUT_VARIABLE NumPy_INCLUDE_DIR
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
-#set(INSTALLDIR "/home/ntsikelelo/Projects/ALBUS/ALBUS_ionosphere" CACHE PATH "Installation director")   ## set by docker file
+include_directories(${NumPy_INCLUDE_DIR})
 
-find_package(PythonInterp REQUIRED)
-find_package(PythonLibs REQUIRED)
+# 2. Find Python and NumPy (REQUIRED for pybind11 / NumPy C API)
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development NumPy)
 
+# 3. Include directories for headers
+include_directories(
+    ${Python3_INCLUDE_DIRS}
+    ${Python3_NumPy_INCLUDE_DIRS}
+  
+    
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/vex_to_sky2
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/C++/mim/test/PIMrunner
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/FORTRAN/SOFA/sofa
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/FORTRAN/IRI
+    ${CMAKE_CURRENT_SOURCE_DIR}/ALBUS_ionosphere/FORTRAN/PIM/PIM_1.7/pim/source/vlb4
 
-# Python_VERSION_STRING is defined by FindPythonInterp
-# It will be something like "3.6.9" → extract the major.minor part
+   
+)
 
-# Extract just "python3.6" from the version
-string(REGEX MATCH "^[0-9]+\\.[0-9]+" PYTHON_MAJOR_MINOR "${PYTHON_VERSION_STRING}")
-set(CURRENT_PYTHON "python${PYTHON_MAJOR_MINOR}")
+# 4. Link directories for .so or .a libraries
+link_directories(${ALBUS_PATH}/lib)
 
+# 5. Define preprocessor macros for version info
+add_definitions(-DMAJOR_VERSION=${MAJOR_VERSION} -DMINOR_VERSION=${MINOR_VERSION})
 
+# 6. Add ALBUSionosphere if it has sources or more targets
+add_subdirectory(ALBUS_ionosphere)
 
-
-set(PYTHONINCLUDEDIR ${PYTHON_INCLUDE_DIR}) 
-
-
-include_directories(${PYTHON_INCLUDE_DIRS})
-
-# Version numbers for the library (if used in targets)
-set(VER_MAJOR 1)
-set(VER_MINOR 0)
-set(VER_SUBSUB 0)
-
-# Options for debugging and shared/static library build
-option(DEBUG "Enable debugging" OFF)
-option(SHARED "Build shared library" ON)
-
-# Option for HAVE_G2C_H_FILE (defaulting to off)
-set(HAVE_G2C_H_FILE 0 CACHE BOOL "Set if g2c.h is available")
-
-
-
-
-include_directories(${CMAKE_SOURCE_DIR} ${INSTALLDIR}/include)
-
-add_definitions(-DINSTALLDIR="${INSTALLDIR}")
-if(HAVE_G2C_H_FILE)
-  add_definitions(-DHAVE_G2C_H_FILE=${HAVE_G2C_H_FILE})
-endif()
-
-#----------------------------------------------------------------------------
-# Set compiler flags based on system type and debug option
-#----------------------------------------------------------------------------
-if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-  if(NOT DEBUG)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -Wall")
-    # Add legacy standard flag
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} --std=legacy")
-
-  else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall")
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -g -Wall")
-  endif()
-elseif(CMAKE_SYSTEM_NAME MATCHES "SunOS")
-  # Solaris settings (adjust as needed)
-  if(NOT DEBUG)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pipe -O2 -msupersparc -Wall")
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -O")
-  else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall")
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -g")
-  endif()
-endif()
-
-#----------------------------------------------------------------------------
-# For shared libraries, ensure position independent code
-#----------------------------------------------------------------------------
-if(SHARED)
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
-
-#----------------------------------------------------------------------------
-# Define a postfix for file names (mimicking the Makefile POSTFIX logic)
-#----------------------------------------------------------------------------
-if(NOT DEBUG)
-  set(POSTFIX ${CMAKE_SYSTEM_NAME})
-else()
-  set(POSTFIX "${CMAKE_SYSTEM_NAME}_debug")
-endif()
+# 7. Create the shared library module
+#add_library(AlbusIonosphere SHARED AlbusIonosphere.cxx)
 
 
-# Build all libaries then link with ALBUS_ionosphere last in C++ folder 
+# Ensure correct file name for Python extension
+#set_target_properties(AlbusIonosphere PROPERTIES
+#  PREFIX ""  # No 'lib' prefix
+#  SUFFIX ".cpython-310-x86_64-linux-gnu.so"  # Match your Python version/platform
+#)
+
+# Get the correct Python site-packages path
+execute_process(
+  COMMAND "${Python3_EXECUTABLE}" -c "import sysconfig; print(sysconfig.get_paths()['platlib'])"
+  OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# Get platform-correct extension suffix
+execute_process(
+  COMMAND "${Python3_EXECUTABLE}" -c "from importlib.machinery import EXTENSION_SUFFIXES as s; print(s[0])"
+  OUTPUT_VARIABLE PYTHON_EXTENSION_SUFFIX
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+add_library(AlbusIonosphere MODULE AlbusIonosphere.cxx)
+
+set_target_properties(AlbusIonosphere PROPERTIES
+  PREFIX ""
+  SUFFIX "${PYTHON_EXTENSION_SUFFIX}"
+  INSTALL_RPATH "$ORIGIN"
+  BUILD_WITH_INSTALL_RPATH TRUE
+)
 
 
 
+# 8. Link the required external libraries
+target_link_libraries(AlbusIonosphere
+    PRIVATE
+    mim
+    jmavex
+    iri
+    pim
+    sofa
+    vexplus
+    vex
+    fl
+    gfortran
+    m
+    ${Python3_LIBRARIES}
+)
 
-add_subdirectory(FORTRAN)
-add_subdirectory(Python)
-add_subdirectory(C++)
+# Get Python site-packages directory
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 
-##set file permissions after installation 
-install(CODE "execute_process(COMMAND chmod -R ugo+rX ${INSTALLDIR}/bin)")
-install(CODE "execute_process(COMMAND chmod -R ugo+rX ${INSTALLDIR}/include)")
-install(CODE "execute_process(COMMAND chmod -R ugo+rX ${INSTALLDIR}/lib)")
-install(CODE "execute_process(COMMAND chmod -R ugo+rX ${INSTALLDIR}/libdata)")
-install(CODE "execute_process(COMMAND chmod -R ugo+rX ${INSTALLDIR}/share)")
-install(CODE "execute_process(COMMAND mkdir -p ${INSTALLDIR}/man)")
-install(CODE "execute_process(COMMAND chmod -R ugo+rX ${INSTALLDIR}/man)")
+execute_process(
+    COMMAND "${Python3_EXECUTABLE}" -c "import numpy; print(numpy.get_include())"
+    OUTPUT_VARIABLE NUMPY_INCLUDE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
 
+target_include_directories(AlbusIonosphere
+    PRIVATE
+        ${NUMPY_INCLUDE_DIR}
+)
+
+
+install(TARGETS AlbusIonosphere
+        LIBRARY DESTINATION ${PYTHON_SITE_PACKAGES}
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                    GROUP_READ GROUP_EXECUTE
+                    WORLD_READ WORLD_EXECUTE
+)
 
