@@ -67,7 +67,7 @@ not currently be fully reversable without manual intervention.
 
 1. Clone this branch (if you haven’t already):
    ```bash
-   git clone -b albus_python_version git@github.com:ratt-ru/ALBUS_ionosphere.git
+   git clone git@github.com:ratt-ru/ALBUS_ionosphere.git
 
 2. Navigate into the project directory:
    ```bash
@@ -85,6 +85,7 @@ not currently be fully reversable without manual intervention.
 
 **Note that the user still needs to compile and install RINEXCMP and have gfzrnx and RX3name in the PATH before running
 **
+
 
 
 
