@@ -60,10 +60,14 @@ the, as yet, unpublished paper twillis_ALBUS_paper.pdf available in
 this directory.
 
 ## Installation
+**We strongly recommend using a clean python virtual environment for the installation process
+and advise against installing this package into system folders as the installation process may
+not currently be fully reversable without manual intervention.
+**
 
 1. Clone this branch (if you haven’t already):
    ```bash
-   git clone -b albus_python_version git@github.com:Ntsikelelo-Charles/ALBUS_ionosphere.git
+   git clone -b albus_python_version git@github.com:ratt-ru/ALBUS_ionosphere.git
 
 2. Navigate into the project directory:
    ```bash
@@ -77,12 +81,9 @@ this directory.
 4. Install the package:
    ```bash
    pip install .
+**Editable (-e) installations are not currently supported**
 
-5. Set Python-path.
-   ```bash 
-   export PYTHONPATH="$(pwd)/albus_env/lib/python3.10/site-packages/share:$PYTHONPATH"
-
-**Note that the user still needs to compile and install RINEX file after installation
+**Note that the user still needs to compile and install RINEXCMP and have gfzrnx and RX3name in the PATH before running
 **
 
 

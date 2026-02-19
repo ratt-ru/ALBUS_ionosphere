@@ -56,7 +56,7 @@ install(
 
 install(
   FILES ${SRCS}
-  DESTINATION ${PYTHON_SITE_PACKAGES}/share
+  DESTINATION ${PYTHON_SITE_PACKAGES}
 )
 #need to this file executable
 install(CODE "execute_process(COMMAND chmod +x ${PYTHON_SITE_PACKAGES}/bin/Albus_RINEX_download.py)")
