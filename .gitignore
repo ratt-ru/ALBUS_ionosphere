@@ -33,3 +33,4 @@ __pycache__
 .noaacache
 build/
 *.log
+dist/

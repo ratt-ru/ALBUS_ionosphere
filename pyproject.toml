@@ -8,7 +8,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "AlbusIonosphere"
-version = "1.0.0"
+version = "1.0.0rc1"
 description = "ALBUS ionospheric RM prediction package"
 authors = [{ name = "James M Anderson" }]
 license = { text = "MIT" }
@@ -34,7 +34,20 @@ sdist.include = [
     "AlbusIonosphere.cxx",
     "ALBUS_ionosphere"
 ]
-
+sdist.exclude = [
+    "build",
+    "acceptance_tests",
+    "Dockerfile",
+    "Jenkinsfile.sh",
+    "RNXCMP_4.1.0_src.tar.gz",
+    "UPDATING_SPACE_WEATHER",
+    "twillis_ALBUS_paper.pdf",
+    ".gitignore",
+    ".dockerignore",
+    "CODE_data_products_2.pdf",
+    "CODE_data_products.pdf",
+    "IMF24_request.png"
+]
 
 [tool.scikit-build.cmake.define]
 MAJOR_VERSION = "1"
