@@ -46,7 +46,9 @@ sdist.exclude = [
     ".dockerignore",
     "CODE_data_products_2.pdf",
     "CODE_data_products.pdf",
-    "IMF24_request.png"
+    "IMF24_request.png",
+    "00_iri2012.tar",
+    "iri.tar.gz"
 ]
 
 [tool.scikit-build.cmake.define]
