@@ -67,9 +67,6 @@ WORKDIR /src/ALBUS
 ## since there is no build isolation this needs to installled before build
 RUN build_env/bin/python -m pip install .
 
-#needed no other way, not set by system, needs to be declared before runing albus imported as a variable
-ENV PYTHONPATH="/src/ALBUS/build_env/lib/python3.10/site-packages/share"
-
 ENTRYPOINT [ "/src/ALBUS/build_env/bin/python3.10" ]
 # print some default stuffs
 ENV HELPSTRING="docker run -v <absolute path to gfzrnx>:/usr/local/bin/gfzrnx "\

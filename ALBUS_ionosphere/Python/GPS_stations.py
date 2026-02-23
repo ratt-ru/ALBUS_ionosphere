@@ -23,7 +23,7 @@ if(socket.getdefaulttimeout == None):
 import Albus_RINEX_2
 import Albus_RINEX
 import string
-
+import AlbusIonosphere
 
 
 ################################################################################
@@ -439,24 +439,15 @@ def fill_standard_stations():
     try:
         now_time = time.time()   # in seconds
         # find the system list
-        py_path = os.environ["PYTHONPATH"]
-        sys_file = None
-        for d in py_path.split(os.pathsep):
-            test_path = d + "/../libdata/JMA/gps_pos_default.snx"
-            if(os.path.isfile(test_path)):
-                sys_file = test_path
-                break
-            test_path = d + "/../../libdata/JMA/gps_pos_default.snx"
-            if(os.path.isfile(test_path)):
-                sys_file = test_path
-                break
-        sys_time = 0
-        if(sys_file):
-            sys_time = os.path.getmtime(sys_file)
-            if(now_time - sys_time > 6 * month):
-                warnings.warn("System default GPS station file %s is getting old.\nContact your system administrator."%sys_file)
-        else:
-            warnings.warn("Cannot find default GPS station file %s.\nContact your system administrator."%sys_file)
+        sys_file = os.path.join(os.path.split(AlbusIonosphere.__file__)[0], 
+            'libdata','JMA','gps_pos_default.snx')
+        if not os.path.isfile(sys_file):
+            raise RuntimeError(f"Missing IGS SNX file which should be located at {sys_file}. Check installation")
+        
+        sys_time = os.path.getmtime(sys_file)
+        if(now_time - sys_time > 6 * month):
+            warnings.warn("System default GPS station file %s is getting old.\nContact your system administrator."%sys_file)
+        
         user_file = os.environ['HOME'] + "/.ParselTongue/GPS_station_list.txt"
         user_time = 0
         if(os.path.isfile(user_file)):
